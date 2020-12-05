@@ -1,6 +1,6 @@
 package com.haerul.foodsapp.view.category;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.haerul.foodsapp.Utils;
 import com.haerul.foodsapp.model.Meals;
@@ -22,7 +22,7 @@ public class CategoryPresenter {
         Call<Meals> mealsCall = Utils.getApi().getMealByCategory(category);
         mealsCall.enqueue(new Callback<Meals>() {
             @Override
-            public void onResponse(@NonNull Call<Meals> call,@NonNull Response<Meals> response) {
+            public void onResponse(@NonNull Call<Meals> call, @NonNull Response<Meals> response) {
                 view.hideLoading();
                 if (response.isSuccessful() && response.body() != null) {
                     view.setMeals(response.body().getMeals());

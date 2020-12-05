@@ -3,6 +3,7 @@ package com.haerul.foodsapp.view.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -33,7 +34,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     ViewPager viewPagerMeal;
     @BindView(R.id.recyclerCategory)
     RecyclerView recyclerViewCategory;
-
     HomePresenter presenter;
 
     @Override
@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         headerAdapter.notifyDataSetChanged();
 
         headerAdapter.setOnItemClickListener((v, position) -> {
-            //TODO #8.1 make an intent to DetailActivity (get the name of the meal from the edit text view, then send the name of the meal to DetailActivity)
+            Toast.makeText(this, meal.get(position).getStrMeal(), Toast.LENGTH_SHORT).show();
         });
     }
 
