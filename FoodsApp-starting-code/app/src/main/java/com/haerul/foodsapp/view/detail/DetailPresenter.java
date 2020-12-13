@@ -10,6 +10,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailPresenter {
+
     private DetailView view;
 
     public DetailPresenter(DetailView view) {

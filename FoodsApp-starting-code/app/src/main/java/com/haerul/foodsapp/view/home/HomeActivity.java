@@ -3,7 +3,9 @@ package com.haerul.foodsapp.view.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,11 +21,17 @@ import com.haerul.foodsapp.model.Meals;
 import com.haerul.foodsapp.view.category.CategoryActivity;
 import com.haerul.foodsapp.view.detail.DetailActivity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements HomeView {
 
@@ -35,6 +43,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     ViewPager viewPagerMeal;
     @BindView(R.id.recyclerCategory)
     RecyclerView recyclerViewCategory;
+    @BindView(R.id.cardSearch)
+    SearchView searchView;
     HomePresenter presenter;
 
     @Override
@@ -98,4 +108,22 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         Utils.showDialogMessage(this, "Title", message);
     }
 
+    void getMealByName(String mealName) {
+        final List<Meals.Meal>[] meals = new List[]{new ArrayList<>()};
+        Utils.getApi().getMealByName(mealName).enqueue(new Callback<Meals>() {
+                    @Override
+                    public void onResponse(@NotNull Call<Meals> call, @NotNull Response<Meals> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            meals[0] = response.body().getMeals();
+                        } else {
+                            Toast.makeText(HomeActivity.this, "No Result!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(@NotNull Call<Meals> call,@NotNull Throwable t) {
+
+                    }
+                }
+        );
+    }
 }
